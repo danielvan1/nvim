@@ -86,6 +86,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 
 -- [[ Options ]]
 require 'options'
+require 'keymaps'
 
 -- [[ Configure and install plugins ]]
 --
