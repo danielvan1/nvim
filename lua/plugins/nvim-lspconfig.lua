@@ -175,8 +175,11 @@ return {
       -- ts_ls = {},
       --
       bashls = {},
+      yamlls = {},
       bicep = {
         cmd = { 'dotnet', '/usr/local/bin/bicep-langserver/Bicep.LangServer.dll' },
+        filetypes = { 'bicep' },
+        root_dir = require('lspconfig.util').root_pattern('.git', '*.bicep'),
       },
 
       lua_ls = {
