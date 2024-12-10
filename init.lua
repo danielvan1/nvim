@@ -97,6 +97,8 @@ require 'keymaps'
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
+--
+
 require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -150,6 +152,8 @@ require('lazy').setup({
   -- require 'plugins.debug',
   -- require 'plugins.lint',
   -- require 'plugins.indent_line',
+  require 'plugins.bufferline',
+  require 'plugins.roslyn',
   require 'plugins.lazy-git',
   require 'plugins.autopairs',
   require 'plugins.colorscheme',
@@ -160,6 +164,7 @@ require('lazy').setup({
   require 'plugins.nvim-cmp',
   require 'plugins.which-key',
   require 'plugins.telescope',
+  require 'plugins.oil',
   require 'plugins.neo-tree',
   require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
 
