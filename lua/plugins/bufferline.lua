@@ -56,43 +56,42 @@ return {
       },
     }
 
-    local map = vim.api.nvim_set_keymap
     local opts = { noremap = true, silent = true }
 
     -- Switch to the next buffer
-    map('n', '<leader>bt', ':BufferLineCycleNext<CR>', opts)
+    vim.keymap.set('n', '<leader>bt', ':BufferLineCycleNext<CR>', { desc = 'Next Buffer', noremap = true, silent = true })
 
     -- Switch to the previous buffer
-    map('n', '<leader>bT', ':BufferLineCyclePrev<CR>', opts)
+    vim.keymap.set('n', '<leader>bT', ':BufferLineCyclePrev<CR>', { desc = 'Next Buffer', noremap = true, silent = true })
 
     -- Close the current buffer
-    map('n', '<leader>bq', ':bdelete %<CR>', opts)
+    vim.keymap.set('n', '<leader>bq', ':bdelete %<CR>', { desc = 'Quit Current Buffer', noremap = true, silent = true })
 
     -- Go to buffer 1
-    map('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>', opts)
+    vim.keymap.set('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>', opts)
 
     -- Go to buffer 2
-    map('n', '<leader>2', ':BufferLineGoToBuffer 2<CR>', opts)
+    vim.keymap.set('n', '<leader>2', ':BufferLineGoToBuffer 2<CR>', opts)
 
     -- Go to buffer 3
-    map('n', '<leader>3', ':BufferLineGoToBuffer 3<CR>', opts)
+    vim.keymap.set('n', '<leader>3', ':BufferLineGoToBuffer 3<CR>', opts)
 
     -- Go to buffer 4
-    map('n', '<leader>4', ':BufferLineGoToBuffer 4<CR>', opts)
+    vim.keymap.set('n', '<leader>4', ':BufferLineGoToBuffer 4<CR>', opts)
 
     -- Go to buffer 5
-    map('n', '<leader>5', ':BufferLineGoToBuffer 5<CR>', opts)
+    vim.keymap.set('n', '<leader>5', ':BufferLineGoToBuffer 5<CR>', opts)
 
     -- Go to buffer 6
-    map('n', '<leader>6', ':BufferLineGoToBuffer 6<CR>', opts)
+    vim.keymap.set('n', '<leader>6', ':BufferLineGoToBuffer 6<CR>', opts)
 
     -- Go to buffer 7
-    map('n', '<leader>7', ':BufferLineGoToBuffer 7<CR>', opts)
+    vim.keymap.set('n', '<leader>7', ':BufferLineGoToBuffer 7<CR>', opts)
 
     -- Go to buffer 8
-    map('n', '<leader>8', ':BufferLineGoToBuffer 8<CR>', opts)
+    vim.keymap.set('n', '<leader>8', ':BufferLineGoToBuffer 8<CR>', opts)
 
     -- Go to buffer 9
-    map('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>', opts)
+    vim.keymap.set('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>', opts)
   end,
 }
