@@ -135,6 +135,8 @@ require('lazy').setup({
   -- you do for a plugin at the top level, you can do for a dependency.
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
+  --
+  { 'nvim-lua/lsp-status.nvim' },
 
   -- LSP Plugins
   {
@@ -165,6 +167,7 @@ require('lazy').setup({
   -- require 'plugins.debug',
   -- require 'plugins.lint',
   -- require 'plugins.indent_line',
+
   require 'plugins.lualine',
   require 'plugins.noice',
   require 'plugins.bufferline',
