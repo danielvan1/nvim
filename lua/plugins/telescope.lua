@@ -4,6 +4,7 @@ return {
   branch = '0.1.x',
   dependencies = {
     'debugloop/telescope-undo.nvim',
+    'nvim-telescope/telescope-live-grep-args.nvim',
     'nvim-lua/plenary.nvim',
     { -- If encountering errors, see telescope-fzf-native README for installation instructions
       'nvim-telescope/telescope-fzf-native.nvim',
@@ -111,6 +112,17 @@ return {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
         },
+
+        live_grep_args = {
+          auto_quoting = true,
+          mappings = {
+            i = {
+              ['<C-o>'] = require('telescope-live-grep-args.actions').quote_prompt(),
+              ['<C-i>'] = require('telescope-live-grep-args.actions').quote_prompt { postfix = ' --iglob ' },
+            },
+          },
+        },
+
       },
     }
 
@@ -119,6 +131,7 @@ return {
     pcall(require('telescope').load_extension, 'ui-select')
     pcall(require('telescope').load_extension, 'noice')
     pcall(require('telescope').load_extension, 'undo')
+    pcall(require('telescope').load_extension, 'live_grep_args')
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
@@ -134,6 +147,7 @@ return {
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
     vim.keymap.set('n', '<leader>sn', '<CMD>Telescope noice<CR>', { desc = '[S]earch [N]oice Messages' })
     vim.keymap.set('n', '<leader>su', '<CMD>Telescope undo<CR>', { desc = '[S]each [U]ndo Tree' })
+    vim.keymap.set('n', '<leader>sf', "<CMD> Telescope live_grep_args<CR>", { desc = "Live grep"} )
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()
