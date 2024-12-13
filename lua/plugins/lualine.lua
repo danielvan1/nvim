@@ -3,6 +3,7 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons', 'linrongbin16/lsp-progress.nvim' },
 
   config = function()
+    local lazy_status = require 'lazy.status' -- to configure lazy pending updates count
     require('lsp-progress').setup {
       client_format = function(client_name, spinner, series_messages)
         if #series_messages == 0 then
@@ -74,7 +75,19 @@ return {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { 'filename', "require'lsp-progress'.progress()" },
-        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_x = {
+          {
+            lazy_status.updates,
+            cond = lazy_status.has_updates,
+            color = { fg = '#ff9e64' },
+          },
+          { 'encoding' },
+          { 'fileformat' },
+          { 'filetype' },
+          'encoding',
+          'fileformat',
+          'filetype',
+        },
         lualine_y = { 'progress' },
         lualine_z = { 'location' },
       },
