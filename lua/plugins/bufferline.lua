@@ -6,6 +6,8 @@ return {
   config = function()
     require('bufferline').setup {
       options = {
+
+        numbers = 'ordinal',
         show_duplicate_prefix = true, -- whether to show duplicate buffer prefix
         show_tab_indicators = true,
         max_name_length = 30,

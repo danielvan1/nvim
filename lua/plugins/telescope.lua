@@ -3,6 +3,7 @@ return {
   event = 'VimEnter',
   branch = '0.1.x',
   dependencies = {
+    'debugloop/telescope-undo.nvim',
     'nvim-lua/plenary.nvim',
     { -- If encountering errors, see telescope-fzf-native README for installation instructions
       'nvim-telescope/telescope-fzf-native.nvim',
@@ -48,11 +49,63 @@ return {
       -- You can put your default mappings / updates / etc. in here
       --  All the info you're looking for is in `:help telescope.setup()`
       --
-      -- defaults = {
-      --   mappings = {
-      --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-      --   },
-      -- },
+      defaults = {
+        vimgrep_arguments = {
+          'rg',
+          '-L',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+        },
+        prompt_prefix = '   ',
+        selection_caret = '  ',
+        entry_prefix = '  ',
+        initial_mode = 'insert',
+        selection_strategy = 'reset',
+        sorting_strategy = 'ascending',
+        layout_strategy = 'horizontal',
+        layout_config = {
+          horizontal = {
+            prompt_position = 'top',
+            preview_width = 0.55,
+            results_width = 0.8,
+          },
+          vertical = {
+            mirror = false,
+          },
+          width = 0.87,
+          height = 0.80,
+          preview_cutoff = 120,
+        },
+        file_sorter = require('telescope.sorters').get_fuzzy_file,
+        file_ignore_patterns = { 'node_modules' },
+        generic_sorter = require('telescope.sorters').get_generic_fuzzy_sorter,
+        path_display = { 'truncate' },
+        winblend = 0,
+        border = {},
+        borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+        color_devicons = true,
+        set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
+        file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+        grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+        qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+        -- Developer configurations: Not meant for general override
+        buffer_previewer_maker = require('telescope.previewers').buffer_previewer_maker,
+        mappings = {
+          n = {
+            ['q'] = require('telescope.actions').close,
+            ['<c-j>'] = { require('telescope.actions').move_selection_next, type = 'action', opts = { nowait = true, silent = true } },
+            ['<c-k>'] = { require('telescope.actions').move_selection_previous, type = 'action', opts = { nowait = true, silent = true } },
+          },
+          i = {
+            ['<c-j>'] = { require('telescope.actions').move_selection_next, type = 'action', opts = { nowait = true, silent = true } },
+            ['<c-k>'] = { require('telescope.actions').move_selection_previous, type = 'action', opts = { nowait = true, silent = true } },
+          },
+        },
+      },
       -- pickers = {}
       extensions = {
         ['ui-select'] = {
@@ -64,6 +117,8 @@ return {
     -- Enable Telescope extensions if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
+    pcall(require('telescope').load_extension, 'noice')
+    pcall(require('telescope').load_extension, 'undo')
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
@@ -77,6 +132,8 @@ return {
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+    vim.keymap.set('n', '<leader>sn', '<CMD>Telescope noice<CR>', { desc = '[S]earch [N]oice Messages' })
+    vim.keymap.set('n', '<leader>su', '<CMD>Telescope undo<CR>', { desc = '[S]each [U]ndo Tree' })
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()
@@ -95,10 +152,5 @@ return {
         prompt_title = 'Live Grep in Open Files',
       }
     end, { desc = '[S]earch [/] in Open Files' })
-
-    -- Shortcut for searching your Neovim configuration files
-    vim.keymap.set('n', '<leader>sn', function()
-      builtin.find_files { cwd = vim.fn.stdpath 'config' }
-    end, { desc = '[S]earch [N]eovim files' })
   end,
 }
