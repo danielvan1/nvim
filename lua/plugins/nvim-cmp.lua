@@ -65,17 +65,9 @@ return {
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-u>'] = cmp.mapping.scroll_docs(4),
 
-        -- Accept ([y]es) the completion.
-        --  This will auto-import if your LSP supports it.
-        --  This will expand snippets if the LSP sent a snippet.
-        ['<Tab>'] = cmp.mapping.confirm { select = true },
         ['<CR>'] = cmp.mapping.confirm { select = true },
-
-        -- If you prefer more traditional completion keymaps,
-        -- you can uncomment the following lines
-        --['<CR>'] = cmp.mapping.confirm { select = true },
-        --['<Tab>'] = cmp.mapping.select_next_item(),
-        --['<S-Tab>'] = cmp.mapping.select_prev_item(),
+        ['<Tab>'] = cmp.mapping.select_next_item(),
+        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
         -- Manually trigger a completion from nvim-cmp.
         --  Generally you don't need this, because nvim-cmp will display
@@ -118,7 +110,26 @@ return {
 
     -- `/` cmdline setup.
     cmp.setup.cmdline('/', {
-      mapping = cmp.mapping.preset.cmdline(),
+      mapping = cmp.mapping.preset.cmdline {
+        ['<C-k>'] = {
+          c = function()
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              cmp.complete()
+            end
+          end,
+        },
+        ['<C-j>'] = {
+          c = function()
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              cmp.complete()
+            end
+          end,
+        },
+      },
       sources = {
         { name = 'buffer' },
       },
@@ -126,10 +137,28 @@ return {
 
     -- `:` cmdline setup.
     cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline(),
-      ['<C-k>'] = cmp.mapping.select_next_item(),
-      -- Select the [p]revious item
-      ['<C-j>'] = cmp.mapping.select_prev_item(),
+      mapping = cmp.mapping.preset.cmdline {
+        ['<C-k>'] = {
+          c = function()
+            local cmp = require 'cmp'
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              cmp.complete()
+            end
+          end,
+        },
+        ['<C-j>'] = {
+          c = function()
+            local cmp = require 'cmp'
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              cmp.complete()
+            end
+          end,
+        },
+      },
       sources = cmp.config.sources({
         { name = 'path' },
       }, {
