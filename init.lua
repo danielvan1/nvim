@@ -172,7 +172,6 @@ require('lazy').setup({
   require 'plugins.noice',
   require 'plugins.bufferline',
   require 'plugins.roslyn',
-  require 'plugins.lazy-git',
   require 'plugins.autopairs',
   require 'plugins.colorscheme',
   require 'plugins.nvim-lspconfig',
@@ -184,7 +183,9 @@ require('lazy').setup({
   require 'plugins.telescope',
   require 'plugins.oil',
   require 'plugins.neo-tree',
-  require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'plugins.gitsigns',
+  require 'plugins.trouble',
+  require 'plugins.snacks',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
