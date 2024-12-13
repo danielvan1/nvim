@@ -165,6 +165,7 @@ require('lazy').setup({
   -- require 'plugins.debug',
   -- require 'plugins.lint',
   -- require 'plugins.indent_line',
+  require 'plugins.lualine',
   require 'plugins.noice',
   require 'plugins.bufferline',
   require 'plugins.roslyn',
