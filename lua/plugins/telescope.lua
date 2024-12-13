@@ -122,7 +122,6 @@ return {
             },
           },
         },
-
       },
     }
 
@@ -147,7 +146,7 @@ return {
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
     vim.keymap.set('n', '<leader>sn', '<CMD>Telescope noice<CR>', { desc = '[S]earch [N]oice Messages' })
     vim.keymap.set('n', '<leader>su', '<CMD>Telescope undo<CR>', { desc = '[S]each [U]ndo Tree' })
-    vim.keymap.set('n', '<leader>sf', "<CMD> Telescope live_grep_args<CR>", { desc = "Live grep"} )
+    vim.keymap.set('n', '<leader>sf', '<CMD> Telescope live_grep_args<CR>', { desc = 'Live grep' })
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()
