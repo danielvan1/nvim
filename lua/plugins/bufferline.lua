@@ -64,10 +64,10 @@ return {
     vim.keymap.set('n', '<leader>bt', ':BufferLineCycleNext<CR>', { desc = 'Next Buffer', noremap = true, silent = true })
 
     -- Switch to the previous buffer
-    vim.keymap.set('n', '<leader>bT', ':BufferLineCyclePrev<CR>', { desc = 'Next Buffer', noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>bT', ':BufferLineCyclePrev<CR>', { desc = 'Previuos Buffer', noremap = true, silent = true })
 
     -- Close the current buffer
-    vim.keymap.set('n', '<leader>bq', ':bdelete %<CR>', { desc = 'Quit Current Buffer', noremap = true, silent = true })
+    -- vim.keymap.set('n', '<leader>bq', ':bdelete %<CR>', { desc = 'Quit Current Buffer', noremap = true, silent = true })
 
     -- Go to buffer 1
     vim.keymap.set('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>', opts)
