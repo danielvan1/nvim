@@ -13,6 +13,8 @@ return {
 
     -- Allows extra capabilities provided by nvim-cmp
     'hrsh7th/cmp-nvim-lsp',
+
+    'b0o/schemastore.nvim',
   },
   config = function()
     -- Brief aside: **What is LSP?**
@@ -136,14 +138,14 @@ return {
     })
 
     -- Change diagnostic symbols in the sign column (gutter)
-    -- if vim.g.have_nerd_font then
-    --   local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
-    --   local diagnostic_signs = {}
-    --   for type, icon in pairs(signs) do
-    --     diagnostic_signs[vim.diagnostic.severity[type]] = icon
-    --   end
-    --   vim.diagnostic.config { signs = { text = diagnostic_signs } }
-    -- end
+    if vim.g.have_nerd_font then
+      local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
+      local diagnostic_signs = {}
+      for type, icon in pairs(signs) do
+        diagnostic_signs[vim.diagnostic.severity[type]] = icon
+      end
+      vim.diagnostic.config { signs = { text = diagnostic_signs } }
+    end
 
     -- LSP servers and clients are able to communicate to each other what features they support.
     --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -175,14 +177,17 @@ return {
       -- ts_ls = {},
       --
       bashls = {},
-      yamlls = {
-        schemas = {
-          ['https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json'] = '**/docker-compose*.yaml',
-        },
-        validate = true, -- Enable schema validation
-        hover = true, -- Enable hover support
-        completion = true, -- Enable auto-completion
-      },
+      -- yamlls = {
+      --   settings = {
+      --     yaml = {
+      --       schemas = {
+      --         ['https://json.schemastore.org/github-workflow.json'] = '/.github/workflows/*',
+      --         ['https://json.schemastore.org/kubernetes.json'] = '/*.k8s.yaml',
+      --         ['https://json.schemastore.org/docker-compose.json'] = '/docker-compose.yml',
+      --       },
+      --     },
+      --   },
+      -- },
       bicep = {
         cmd = { 'dotnet', '/usr/local/bin/bicep-langserver/Bicep.LangServer.dll' },
         filetypes = { 'bicep' },
@@ -232,6 +237,20 @@ return {
     --
     --  You can press `g?` for help in this menu.
     require('mason').setup()
+    require('lspconfig').yamlls.setup {
+      settings = {
+        yaml = {
+          schemaStore = {
+            -- You must disable built-in schemaStore support if you want to use
+            -- this plugin and its advanced options like `ignore`.
+            enable = false,
+            -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+            url = '',
+          },
+          schemas = require('schemastore').yaml.schemas(),
+        },
+      },
+    }
 
     -- You can add other tools here that you want Mason to install
     -- for you, so that they are available from within Neovim.
