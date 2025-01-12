@@ -175,7 +175,14 @@ return {
       -- ts_ls = {},
       --
       bashls = {},
-      yamlls = {},
+      yamlls = {
+        schemas = {
+          ['https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json'] = '**/docker-compose*.yaml',
+        },
+        validate = true, -- Enable schema validation
+        hover = true, -- Enable hover support
+        completion = true, -- Enable auto-completion
+      },
       bicep = {
         cmd = { 'dotnet', '/usr/local/bin/bicep-langserver/Bicep.LangServer.dll' },
         filetypes = { 'bicep' },

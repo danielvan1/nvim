@@ -152,6 +152,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   require 'plugins.debug',
+  require 'plugins.neotest',
   -- require 'plugins.lint',
   -- require 'plugins.indent_line',
 
