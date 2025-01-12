@@ -13,6 +13,8 @@ return {
 
     -- Allows extra capabilities provided by nvim-cmp
     'hrsh7th/cmp-nvim-lsp',
+
+    'b0o/schemastore.nvim',
   },
   config = function()
     -- Brief aside: **What is LSP?**
@@ -100,7 +102,7 @@ return {
         --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
           local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = event.buf,
@@ -136,14 +138,14 @@ return {
     })
 
     -- Change diagnostic symbols in the sign column (gutter)
-    -- if vim.g.have_nerd_font then
-    --   local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
-    --   local diagnostic_signs = {}
-    --   for type, icon in pairs(signs) do
-    --     diagnostic_signs[vim.diagnostic.severity[type]] = icon
-    --   end
-    --   vim.diagnostic.config { signs = { text = diagnostic_signs } }
-    -- end
+    if vim.g.have_nerd_font then
+      local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
+      local diagnostic_signs = {}
+      for type, icon in pairs(signs) do
+        diagnostic_signs[vim.diagnostic.severity[type]] = icon
+      end
+      vim.diagnostic.config { signs = { text = diagnostic_signs } }
+    end
 
     -- LSP servers and clients are able to communicate to each other what features they support.
     --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -176,36 +178,60 @@ return {
       --
       bashls = {},
       yamlls = {
-        schemas = {
-          ['https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json'] = '**/docker-compose*.yaml',
+        settings = {
+          yaml = {
+            schemas = {
+              -- Use the Azure Pipelines schema for any YAML file in the pipelines folder (and its subfolders)
+              ['https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json'] = 'pipelines/**/*.{yml, yaml}',
+
+              -- Use the Kubernetes schema for any YAML file ending with .k8s.yaml anywhere in your project
+              ['https://json.schemastore.org/kubernetes.json'] = '**/*.k8s.{yml, yaml}',
+
+              -- Use the Docker Compose schema for any docker-compose YAML file (e.g. docker-compose.yml, docker-compose.override.yml, etc.)
+              ['https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json'] = '**/docker-compose*.{yml, yaml}',
+
+              -- Use the Helm Chart schema for Helm charts.
+              -- This example assumes your helm charts are identified by a Chart.yaml file;
+              -- adjust the pattern if your helm files are organized differently.
+              ['https://json.schemastore.org/chart.json'] = '**/Chart.yaml',
+            },
+          },
         },
-        validate = true, -- Enable schema validation
-        hover = true, -- Enable hover support
-        completion = true, -- Enable auto-completion
       },
+      -- yamlls = {
+      --   settings = {
+      --     yaml = {
+      --       schemas = {
+      --         ['https://json.schemastore.org/github-workflow.json'] = '/.github/workflows/*',
+      --         ['https://json.schemastore.org/kubernetes.json'] = '/*.k8s.yaml',
+      --         ['https://json.schemastore.org/docker-compose.json'] = '/docker-compose.yml',
+      --       },
+      --     },
+      --   },
+      -- },
       bicep = {
         cmd = { 'dotnet', '/usr/local/bin/bicep-langserver/Bicep.LangServer.dll' },
         filetypes = { 'bicep' },
         root_dir = require('lspconfig.util').root_pattern('.git', '*.bicep'),
       },
 
-      azure_pipelines_ls = {
-        cmd = { 'azure-pipelines-language-server', '--stdio' },
-        filetypes = { 'yaml' },
-        settings = {
-          yaml = {
-            schemas = {
-              ['https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json'] = {
-                '/azure-pipeline*.y*l',
-                '/*.azure*',
-                'Azure-Pipelines/**/*.y*l',
-                'pipelines/*.y*l',
-                'Pipelines/*.y*l',
-              },
-            },
-          },
-        },
-      },
+      -- azure_pipelines_ls = {
+      --   cmd = { 'azure-pipelines-language-server', '--stdio' },
+      --   filetypes = { 'yaml' },
+      --   settings = {
+      --     yaml = {
+      --       schemas = {
+      --         ['https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json'] = {
+      --           '/azure-pipeline*.y*l',
+      --           '/*.azure*',
+      --           'Azure-Pipelines/**/*.y*l',
+      --           'pipelines/*.y*l',
+      --           'Pipelines/*.y*l',
+      --         },
+      --       },
+      --     },
+      --   },
+      -- },
 
       lua_ls = {
         -- cmd = {...},
